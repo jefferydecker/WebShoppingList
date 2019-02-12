@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class viewAllIemsServlet
  */
-@WebServlet("/viewAllIemsServlet")
-public class viewAllIemsServlet extends HttpServlet {
+@WebServlet("/viewAllItemsServlet")
+public class viewAllItemsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
