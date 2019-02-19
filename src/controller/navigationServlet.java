@@ -35,20 +35,34 @@ public class navigationServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		ListItemHelper dao = new ListItemHelper();
 		String act = request.getParameter("doThisToItem");
 		if (act == null) {
 			 //no button has been selected
-			getServletContext().getRequestDispatcher("/viewAllItemsServlet").
-			forward(request, response);
-		} else if (act.equals("delete")) {
-			Integer tempId = Integer.parseInt(request.getParameter("id"));
-			ListItem itemToDelete = dao.searchForItemById(tempId);
-			dao.deleteItem(itemToDelete);
 			getServletContext().getRequestDispatcher("/viewAllItemsServlet").forward(request, response);
+		} else if (act.equals("delete")) {
+			try {
+				Integer tempId = Integer.parseInt(request.getParameter("id"));
+				ListItem itemToDelete = dao.searchForItemById(tempId);
+				dao.deleteItem(itemToDelete);
+			} catch (NumberFormatException e) {
+				System.out.println("Forgot to click a button");
+			} finally {
+				getServletContext().getRequestDispatcher("/viewAllItemsServlet").forward(request, response);
+			} 
 		} else if (act.equals("edit")) {
+			 try {
+				 Integer tempId = Integer.parseInt(request.getParameter("id"));
+				 ListItem itemToEdit = dao.searchForItemById(tempId);
+				 request.setAttribute("itemToEdit", itemToEdit);
+				 getServletContext().getRequestDispatcher("/edit-item.jsp").forward(request, response);
+			 } catch (NumberFormatException e) {
+				 getServletContext().getRequestDispatcher("/viewAllItemsServlet").
+					 forward(request, response);
+			 }
 		} else if (act.equals("add")) {
 			getServletContext().getRequestDispatcher("/index.html").forward(request, response);
 		}
