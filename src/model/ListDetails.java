@@ -28,7 +28,7 @@ public class ListDetails {
 	@Column(name="TRIP_DATE")
 	private LocalDate tripDate;
 
-	@ManyToOne
+	@ManyToOne (cascade=CascadeType.PERSIST)
 	@JoinColumn(name="SHOPPER_ID")
 	private Shopper shopper;
 
