@@ -1,23 +1,27 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.ListDetails;
+
 /**
- * Servlet implementation class viewAllIemsServlet
+ * Servlet implementation class viewAllListsServlet
  */
-@WebServlet("/viewAllIemsServlet")
-public class viewAllIemsServlet extends HttpServlet {
+@WebServlet("/viewAllListsServlet")
+public class viewAllListsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public viewAllIemsServlet() {
+    public viewAllListsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,14 +30,17 @@ public class viewAllIemsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ListItemHelper dao = new ListItemHelper();
-			request.setAttribute("allItems", dao.showAllItems());
-			
-			if(dao.showAllItems().isEmpty()){
-				request.setAttribute("allItems", " ");
+		ListDetailsHelper slh = new ListDetailsHelper();
+		List<ListDetails> abc = slh.getLists();
+		request.setAttribute("allLists", abc);
+
+		if(abc.isEmpty()){
+			request.setAttribute("allLists", " ");
 		}
-			
-			getServletContext().getRequestDispatcher("/shopping-list.jsp").forward(request, response);
+
+		getServletContext().getRequestDispatcher("/shopping-list-by-user.jsp").forward(request, response);
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
